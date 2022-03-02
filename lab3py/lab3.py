@@ -67,7 +67,7 @@ def mlParams(X, labels, W=None):
     mu = np.zeros((Nclasses, Ndims))
     sigma = np.zeros((Nclasses, Ndims, Ndims))
 
-    # fill in the code to compute mu and sigma! make fast?
+    # TODO: fill in the code to compute mu and sigma! make fast?
     # ==========================
     for i in range(len(classes)):
         k = classes[i]

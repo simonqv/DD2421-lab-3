@@ -44,7 +44,8 @@ def computePrior(labels, W=None):
 
     # TODO: compute the values of prior for each class!
     # ==========================
-
+    for i in range(Nclasses):
+        prior[i] = np.sum((labels == classes[i])) / Npts
     # ==========================
 
     return prior
@@ -69,15 +70,16 @@ def mlParams(X, labels, W=None):
 
     # TODO: fill in the code to compute mu and sigma! make fast?
     # ==========================
-    for i in range(len(classes)):
+    for i in range(Nclasses):
         k = classes[i]
         nk = np.sum(labels == k)
         xi = X[labels == k]
         mu[i, :] = np.sum(xi, axis=0) / nk
+
         for j in range(xi.shape[0]):
             p1 = np.expand_dims(xi[j] - mu[i], axis=1)
             p2 = np.expand_dims(xi[j] - mu[i], axis=1).T
-            sigma[i, :, :] += (1./nk) * (np.dot(p1, p2))
+            sigma[i, :, :] += ((1./nk) * (np.dot(p1, p2))) * np.identity(Ndims)
     # ==========================
     return mu, sigma
 
@@ -94,7 +96,13 @@ def classifyBayes(X, prior, mu, sigma):
 
     # TODO: fill in the code to compute the log posterior logProb!
     # ==========================
-
+    for i in range(Nclasses):
+        logProb = (-1/2) \
+                  * np.log(np.abs(sigma[i])) \
+                  - (1/2) \
+                  * (X[i]- mu[i]).T*(1/sigma[i]) \
+                  * (X[i] - mu[i]) \
+                  + np.log(prior[i])
     # ==========================
 
     # one possible way of finding max a-posteriori once

@@ -7,4 +7,4 @@ Det kan vara ett rimligt antagande om vi vet sedan innan att alla/nästan alla f
 
 ### 2)
 *infoga bild*
-Vi vet vad parametrarna motsvarar och vi kan anta att parametrarna inte är oberoende och bör därför använda en mer komplex/annan modell. ...
+Vi vet vad parametrarna motsvarar och vi kan anta att parametrarna inte är oberoende och bör därför använda en mer komplex/annan modell, t.ex. icke-Naïv Bayes. Vi kanske kan projecera datan in i ett annat space som är lättare separerbar (kanske tom. har större oberoende mellan featurersarna).

@@ -71,14 +71,18 @@ def mlParams(X, labels, W=None):
     # ==========================
     for i in range(Nclasses):
         k = classes[i]
-        nk = np.sum(labels == k)
+        #nk = np.sum(labels == k)
         xi = X[labels == k]
-        mu[i, :] = np.sum(xi, axis=0) / nk
+        wi = W[labels == k]
+        #mu[i, :] = np.sum(xi, axis=0) / nk
+        mu[i, :] = np.sum(wi*xi, axis=0) / np.sum(wi)
+
 
         for j in range(xi.shape[0]):
             p1 = np.expand_dims(xi[j] - mu[i], axis=1)
             p2 = np.expand_dims(xi[j] - mu[i], axis=1).T
-            sigma[i, :, :] += ((1. / nk) * (np.dot(p1, p2))) * np.identity(Ndims)
+            #sigma[i, :, :] += ((1. / nk) * (np.dot(p1, p2))) * np.identity(Ndims)
+            sigma[i, :, :] += ((1. / np.sum(wi)) * (wi[j] * np.dot(p1, p2))) * np.identity(Ndims)
     # ==========================
     return mu, sigma
 

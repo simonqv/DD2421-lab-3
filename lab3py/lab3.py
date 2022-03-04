@@ -22,6 +22,7 @@ from imp import reload
 from labfuns import *
 import random
 
+
 # ## Bayes classifier functions to implement
 # 
 # The lab descriptions state what each function should do.
@@ -44,7 +45,8 @@ def computePrior(labels, W=None):
     # TODO: compute the values of prior for each class!
     # ==========================
     for i in range(Nclasses):
-        prior[i] = np.sum((labels == classes[i])) / Npts
+        # prior[i] = np.sum((labels == classes[i])) / Npts
+        prior[i] = np.sum(W[labels == classes[i]])
     # ==========================
 
     return prior
@@ -71,17 +73,16 @@ def mlParams(X, labels, W=None):
     # ==========================
     for i in range(Nclasses):
         k = classes[i]
-        #nk = np.sum(labels == k)
+        # nk = np.sum(labels == k)
         xi = X[labels == k]
         wi = W[labels == k]
-        #mu[i, :] = np.sum(xi, axis=0) / nk
-        mu[i, :] = np.sum(wi*xi, axis=0) / np.sum(wi)
-
+        # mu[i, :] = np.sum(xi, axis=0) / nk
+        mu[i, :] = np.sum(wi * xi, axis=0) / np.sum(wi)
 
         for j in range(xi.shape[0]):
             p1 = np.expand_dims(xi[j] - mu[i], axis=1)
             p2 = np.expand_dims(xi[j] - mu[i], axis=1).T
-            #sigma[i, :, :] += ((1. / nk) * (np.dot(p1, p2))) * np.identity(Ndims)
+            # sigma[i, :, :] += ((1. / nk) * (np.dot(p1, p2))) * np.identity(Ndims)
             sigma[i, :, :] += ((1. / np.sum(wi)) * (wi[j] * np.dot(p1, p2))) * np.identity(Ndims)
     # ==========================
     return mu, sigma
@@ -190,8 +191,14 @@ def trainBoost(base_classifier, X, labels, T=10):
 
         # TODO: Fill in the rest, construct the alphas etc.
         # ==========================
+        delta = (vote == labels).astype("float")
+        epsilon = np.sum(wCur * (1 - delta))
+        alpha = (1 / 2) * (np.log(1 - epsilon) - np.log(epsilon))
 
-        # alphas.append(alpha) # you will need to append the new alpha
+        e_pow = np.exp(alpha * (delta * 2 - 1))
+
+        wCur = (wCur * e_pow) / np.sum(wCur * e_pow)
+        alphas.append(alpha)  # you will need to append the new alpha
         # ==========================
 
     return classifiers, alphas

@@ -22,7 +22,6 @@ from imp import reload
 from labfuns import *
 import random
 
-
 # ## Bayes classifier functions to implement
 # 
 # The lab descriptions state what each function should do.
@@ -99,23 +98,20 @@ def classifyBayes(X, prior, mu, sigma):
     for i in range(Npts):
         for c in range(Nclasses):
             sigmainv = np.diag(1 / np.sum(sigma[c], axis=0))
-            det = np.log(np.linalg.det(sigma[c]))
-            xmu = X[i] - mu[c]
-            t1 = (X[i] - mu[c]) @ sigmainv @ (X[i] - mu[c]).T
-            t2 = (X[i] - mu[c]).T @ sigmainv @ (X[i] - mu[c])
+            xmu = X[None, i] - mu[None, c]
 
-            logProb[c, i] = (-1 / 2) \
-                            * det \
-                            - (1 / 2) \
-                            * (X[i] - mu[c]).T @ sigmainv @ (X[i] - mu[c]) \
-                            + np.log(prior[c])
+            t0 = np.log(np.linalg.det(sigma[c]))
+            t1 = xmu @ sigmainv @ xmu.T
+            t2 = np.log(prior[c])
+
+            logProb[c, i] = (-1 / 2) * t0 \
+                            - (1 / 2) * t1 \
+                            + t2
     # ==========================
 
     # one possible way of finding max a-posteriori once
     # you have computed the log posterior
     h = np.argmax(logProb, axis=0)
-    #print(logProb.shape, Nclasses, Npts)
-    #print(h)
     return h
 
 
@@ -248,12 +244,14 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris', split=0.7)
+# testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris', split=0.7)
+testClassifier(BayesClassifier(), dataset='iris', split=0.7)
 
 # testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
 
 
-plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris', split=0.7)
+# plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris', split=0.7)
+plotBoundary(BayesClassifier(), dataset='iris', split=0.7)
 
 # Now repeat the steps with a decision tree classifier.
 

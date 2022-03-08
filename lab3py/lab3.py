@@ -264,16 +264,24 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-print("BayesClassifier")
-testClassifier(BayesClassifier(), dataset='iris', split=0.7)
-print("Boosted BayesClassifier")
-testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris', split=0.7)
+for d in ['iris', 'vowel']:
+    print(f"=== {d} ===")
+
+    print("BayesClassifier:")
+    testClassifier(BayesClassifier(), dataset=d, split=0.7)
+    print("Boosted BayesClassifier:")
+    testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset=d, split=0.7)
+
+    print("Plot BayesClassifier")
+    plotBoundary(BayesClassifier(), dataset=d, split=0.7)
+    print("Plot Boosted BayesClassifier")
+    plotBoundary(BoostClassifier(BayesClassifier()), dataset=d, split=0.7)
 
 # testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
 
 
-plotBoundary(BayesClassifier(), dataset='iris', split=0.7)
-plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris', split=0.7)
+# plotBoundary(BayesClassifier(), dataset='iris', split=0.7)
+# plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris', split=0.7)
 
 # Now repeat the steps with a decision tree classifier.
 

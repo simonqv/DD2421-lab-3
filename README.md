@@ -32,3 +32,15 @@ Precis som innan blir den mer komplex.
 Återigen ja. Förmodligen skulle en mer complex modell kunna prestera bättre men vi kommer ganska bra undan med boosting i detta fall.
 
 
+## Assignment 7
+- **Outliers:** d-trees mer robusta mot outliers för att splitten/besluten försöker fånga så mycket data som möjligt (mycket information gain) och då blir påverkan av outliers liten. n-bayes påverkas mer av outliers än d-trees. Boosting kommer leda till ökan känslighet mot outliers, men vid våran testning så presterar ändå bootsing bättre än icke boosting i alla fall.
+
+- **Irelevant features:** Varken n-bayes eller d-trees är speciellt känslig för irrelevanta features. Boosting shouldn't change this characeristic.
+
+- **Predictive power:** d-trees have slightly higher or more or less the same predictive power as n-bayes, with or without boosting (depending on the data set).
+
+- **Mixed types:** Det är lätt att hantera i både n-bayes och i d-trees, men är något mer prestandakrävande med n-bayes eftersom att vi behöver mer eller mindre räkna N olika modeller för de N olika data typera och sedan multiplicera sannorlikheterna. Medans med d-tree kan vi hantera allt i ett och samma träd, dock så hanter d-trees inte continues featues lika bra som n-bayes (stämmer inte riktigt överens med vad vi har sett). Boosting should not change this characteristic.
+
+- **Scalability:** n-bayes scales well over high dimentional data thanks to the feature independence assumption and requires a relative low amount of data to train. d-trees can grow quite complex in high dimentional data.
+
+Vi skulle i första hand välja en boosted modell för att den verkar alltid prestera bättre med dessa modeller och för att den inte har någon direkt negativ inverkan på någon av kriterierna. Over all verkar det vara ganska jämnt d-trees och n-bayes emellan med sina egna pros och cons, men vi skulle välja att använda oss av d-trees för att de verkar i våra fall prestera bättre. Slutsatsen blir alltså en boosted ensamble av d-trees.

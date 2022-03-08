@@ -19,3 +19,16 @@ Skillnaden blir att den boostade k... har en mer komplex avvägning mellan klass
 
 ### 3)
 Ja, för att vi kan med boosting förbättra resultaten vi får av vår simplare modell utan att ta till en mer komplex modell. Men det är ingen garanti att den blir bättre.
+
+
+## Assignment 6
+### 1)
+Ja det är en förbättring. Samma anledning som ovan. (d-tree kommer inte kunna bli särskilt djupa eftersom att vi bara har två parametrar så att det kommer bli en week k... med hög bias)
+
+### 2)
+Precis som innan blir den mer komplex.
+
+### 3)
+Återigen ja. Förmodligen skulle en mer complex modell kunna prestera bättre men vi kommer ganska bra undan med boosting i detta fall.
+
+

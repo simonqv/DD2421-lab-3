@@ -263,6 +263,7 @@ class BoostClassifier(object):
 # 
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
+PLOT = False
 
 for d in ['iris', 'vowel']:
     print(f"=== {d} ===")
@@ -272,10 +273,22 @@ for d in ['iris', 'vowel']:
     print("Boosted BayesClassifier:")
     testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset=d, split=0.7)
 
-    print("Plot BayesClassifier")
-    plotBoundary(BayesClassifier(), dataset=d, split=0.7)
-    print("Plot Boosted BayesClassifier")
-    plotBoundary(BoostClassifier(BayesClassifier()), dataset=d, split=0.7)
+    print("DecisionTreeClassifier:")
+    testClassifier(DecisionTreeClassifier(), dataset=d, split=0.7)
+    print("Boosted DecisionTreeClassifier:")
+    testClassifier(BoostClassifier(DecisionTreeClassifier(), T=10), dataset=d, split=0.7)
+
+    if PLOT:
+        print("Plotting...")
+        print("Plot BayesClassifier")
+        plotBoundary(BayesClassifier(), dataset=d, split=0.7)
+        print("Plot Boosted BayesClassifier")
+        plotBoundary(BoostClassifier(BayesClassifier()), dataset=d, split=0.7)
+
+        print("Plot DecisionTreeClassifier")
+        plotBoundary(DecisionTreeClassifier(), dataset=d, split=0.7)
+        print("Plot Boosted DecisionTreeClassifier")
+        plotBoundary(BoostClassifier(DecisionTreeClassifier()), dataset=d, split=0.7)
 
 # testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
 
